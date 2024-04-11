@@ -1,5 +1,6 @@
 requests
 flask
-pyquery
+# pyquery
 flask_script
 flask_sqlalchemy
+python-whois
