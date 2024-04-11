@@ -1,6 +1,0 @@
-requests
-flask
-# pyquery
-flask_script
-flask_sqlalchemy
-python-whois

@@ -36,7 +36,20 @@
 
 ### 部署
 
-Python2 不行了
+Python3:
+
+```shell
+set HTTPS_PROXY=http://127.0.0.1:10809/
+set HTTP_PROXY=http://127.0.0.1:10809/
+
+py -m venv ./venv
+.\venv\Scripts\Activate.ps1
+python.exe -m pip install --upgrade pip
+pip install -r requirements.txt --upgrade --index-url=https://pypi.org/simple --proxy http://127.0.0.1:10809
+python wtf/manage.py
+```
+
+Python2 deprecated, use Python3 instead.
 
 ```shell
 set HTTPS_PROXY=http://127.0.0.1:10809/

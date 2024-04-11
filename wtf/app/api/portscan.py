@@ -1,33 +1,35 @@
 # coding=utf-8
-'''
+"""
 全端口扫描
-'''
+"""
 
 import threading
 import socket
 from . import api
 from app.utils import *
-from flask import  request
+from flask import request
+from typing import List
 
-@api.route('/all_portscan')
+
+@api.route("/all_portscan")
 def all_portscan():
-    target = str(request.args.get('target', ''))
-    ip=url2ip(target)
-    portscan=PortSacn(ip)
+    target = str(request.args.get("target", ""))
+    ip = url2ip(target)
+    portscan = PortSacn(ip)
     portscan.run()
     return success(portscan.get_data())
 
 
 class PortSacn:
-    def __init__(self,ip,thread_num=20):
-        self.data=[]
-        self.ip=ip
-        self.threads = []
+    def __init__(self, ip, thread_num=20):
+        self.data = []
+        self.ip = ip
+        self.threads: List[threading.Thread] = []
         self.lock = threading.Lock()
         self.thread_num = thread_num
 
-    def test_port(self,ports_range=()):
-        for i in range(ports_range[0],ports_range[1]):
+    def test_port(self, ports_range=()):
+        for i in range(ports_range[0], ports_range[1]):
             cli_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             try:
                 indicator = cli_sock.connect_ex((self.ip, i))
@@ -40,9 +42,11 @@ class PortSacn:
                 pass
 
     def start_threads(self):
-        step=65535/self.thread_num
+        step = 65535 / self.thread_num
         for i in range(self.thread_num):
-            t = threading.Thread(target=self.test_port,args=((step*i+1,step*(i+1)),))
+            t = threading.Thread(
+                target=self.test_port, args=((step * i + 1, step * (i + 1)),)
+            )
             self.threads.append(t)
 
         for t in self.threads:
@@ -57,11 +61,12 @@ class PortSacn:
     def get_data(self):
         while True:
             for item in self.threads:
-                if item.isAlive():
-                    continue
+                if item.is_alive():
+                    break
             return self.data
 
+
 if __name__ == "__main__":
-    portscan=PortSacn('222.186.24.54')
+    portscan = PortSacn("222.186.24.54")
     portscan.run()
-    print portscan.data
+    print(portscan.data)
