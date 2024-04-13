@@ -66,7 +66,7 @@
 			<div class="row">
 				<div class="col-lg-7" style="float: none;">
 					<div class="input-group">
-						<input type="text" class="form-control" id="input_word" style="height: 50px;" placeholder="请输入域名...">
+						<input type="text" class="form-control" id="input_word" style="height: 50px;" placeholder="请输入完整链接!">
 						<span class="input-group-btn">
 							<button class="btn btn-success" id="search_btn" type="button" style="height: 50px;padding: 8px 15px;cursor: pointer;">查询一下</button>
 						</span>
